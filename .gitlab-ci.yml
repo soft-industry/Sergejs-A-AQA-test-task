@@ -1,0 +1,27 @@
+image: maven:3-openjdk-8
+
+default:
+  tags:
+    - shelllocal
+
+stages:
+  - execution
+  - report
+
+api:execution:
+  stage: execution
+  script:
+    - 'mvn clean verify'
+
+api:report:
+  stage: report
+  script:
+    - 'mvn serenity:aggregate'
+  artifacts:
+    when: always
+    expire_in: 1 week
+    paths:
+      - target/site/serenity/*
+
+
+
